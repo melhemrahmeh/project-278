@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const Maher = () => {
   return (
@@ -6,5 +6,3 @@ const Maher = () => {
     </div>
   )
 }
-
-export default Maher

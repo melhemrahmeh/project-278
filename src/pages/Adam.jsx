@@ -1,7 +1,8 @@
 import React from "react";
+import "../assets/styles/header.css";
 
 const Adam = () => {
-  return <div>Adam</div>;
+  return <div className="container">Adam</div>;
 };
 
 export default Adam;
