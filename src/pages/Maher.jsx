@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Maher = () => {
-  return (
-    <div>Maher</div>
-  )
-}
+  return <div>Maher</div>;
+};
 
-export default Maher
+export default Maher;
