@@ -4,33 +4,34 @@ import Logo from "../assets/images/logo.png";
 
 const Maher = () => {
   return (
-    <div className="header">
-      <img className="logo" src={Logo} alt="play store logo" />
-
-      <div class="navbar">
-        <ul>
-          <li>
-            <a href="#Games">Games</a>
+    <header>
+      <nav class="navbar container">
+        <img className="logo" src={Logo} alt="play store logo" />
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              Games
+            </a>
           </li>
-          <li>
-            <a href="#Apps">Apps</a>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              Apps
+            </a>
           </li>
-          <li>
-            <a href="#Movies">Movies & TV</a>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              Movies & TV
+            </a>
           </li>
-          <li>
-            <a href="#Books">Books</a>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              Books
+            </a>
           </li>
+          <div class="active"></div>
         </ul>
-      </div>
-
-      <form action="" class="search-bar">
-        <input type="search" name="search" pattern=".*\S.*" required />
-        <button class="search-btn" type="submit">
-          <span>Search</span>
-        </button>
-      </form>
-    </div>
+      </nav>
+    </header>
   );
 };
 
