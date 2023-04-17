@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css?family=Convergence&display=swap");
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Convergence", sans-serif;
+  display: grid;
+  font-size: 1.2rem;
+  background-color: #757575;
+}
+
+.start {
+  text-transform: uppercase;
+}
+
+body h1 {
+  font-size: xx-large;
+}
+
+form {
+  background-color: rgb(43, 43, 92);
+}
+

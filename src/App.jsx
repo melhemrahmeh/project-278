@@ -1,14 +1,16 @@
 import { Routes, Route } from "react-router-dom";
-import Adam from "./pages/Adam";
 import Home from "./pages/Home";
 import Maher from "./pages/Maher";
+import Login from "./pages/login";
+import Register from "./pages/Register";
 
 export default function App() {
   return (
     <Routes>
       <Route index path="/" element={<Home />} />
-      <Route path="/adam" element={<Adam />} />
       <Route path="/maher" element={<Maher />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
     </Routes>
   );
 }
