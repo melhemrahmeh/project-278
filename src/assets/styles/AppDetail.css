@@ -1,0 +1,59 @@
+body {
+    background-color: #fff;
+}
+
+button {
+    background-color: #0000ae;
+}
+
+.App-main {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, auto);
+    grid-gap: 10px;
+}
+
+.AppIcon.right {
+    position: absolute;
+    top: 48px;
+    right: 0;
+    padding-right: 10px;
+}
+
+.button {
+    width: fit-content;
+    margin: 6px 0;
+    padding: 8px 16px;
+}
+
+.free {
+    color: white;
+    border-radius: 8px;
+    border: none;
+    padding: 8px 16px;
+}
+
+.free:hover {
+    background-color: #47b5ff;
+    cursor: pointer;
+}
+
+.add {
+    color: white;
+    border-radius: 8px;
+    border: none;
+    padding: 8px 16px;
+}
+
+.add:hover {
+    background-color: #47b5ff;
+    cursor: pointer;
+}
+
+.bookmark {
+    background-color: #0000ae;
+}
+
+.wish {
+    font-size: 10px;
+}
