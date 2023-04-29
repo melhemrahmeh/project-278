@@ -1,5 +1,5 @@
 header {
-  background-color: #1a1d24;
+  background-color: #6a6a6a;
   color: #fff;
   height: 100px;
 }
@@ -24,7 +24,7 @@ header img {
   outline: none;
   border-radius: 25px;
   transition: all 0.5s ease-in-out;
-  background-color: #22a6b3;
+  background-color: #0000ae;
   padding-right: 40px;
   color: #fff;
 }
@@ -48,6 +48,7 @@ header img {
   color: #fff;
   background-color: transparent;
   pointer-events: painted;
+  padding-left: 50vw;
 }
 
 .btn-search:focus ~ .input-search {
@@ -105,9 +106,9 @@ header img {
 .active {
   position: absolute;
   bottom: -1rem;
-  height: 2px;
+  height: 5px;
   width: 10rem;
-  background-color: #fff;
+  background-color: #0000ae;
   transition: transform 0.5s;
 }
 

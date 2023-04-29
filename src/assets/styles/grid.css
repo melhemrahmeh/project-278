@@ -4,7 +4,7 @@
 }
 
 .button {
-  background-color: #22a6b3;
+  background-color: #0000ae;
   border: 0;
   border-radius: 56px;
   color: #fff;
@@ -52,13 +52,17 @@
   }
 }
 
-.grid-container {
-  margin-left: 150px;
-  margin-top: 30px;
+.grid {
   display: grid;
   grid-template: 100px / auto auto auto;
   grid-gap: 10px;
   padding: 10px;
+  margin: 0px 100px 0px 0px;
+}
+
+.grid-container {
+  margin-left: 150px;
+  margin-top: 30px;
 }
 
 .grid-container .item {

@@ -3,7 +3,9 @@ import "../assets/styles/header.css";
 import "../assets/styles/swiper.css";
 import "../assets/styles/grid.css";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow, Pagination, Navigation } from "swiper";
+import SwipeCore, { EffectCoverflow, Pagination, Navigation } from "swiper";
+import { useState, useEffect } from "react";
+import { Responsive as ResponsiveGridLayout } from "react-grid-layout";
 
 import "swiper/css";
 import "swiper/css/effect-coverflow";
@@ -16,19 +18,45 @@ import appLogo from "../assets/images/apps/applogo.jfif";
 import appImage from "../assets/images/apps/appimage.jfif";
 
 const Maher = () => {
+  const [apps, setApps] = useState([]);
+  const [games, setGames] = useState([]);
+
+  const [show, setShow] = useState(true);
+
+  function FetchApps() {
+    useEffect(() => {
+      fetch("https://google-play-store.onrender.com/api/apps")
+        .then((response) => response.json())
+        .then((data) => setApps(data))
+        .catch((err) => console.log(err));
+    }, []);
+    console.log(apps);
+  }
+
+  function FetchGames() {
+    useEffect(() => {
+      fetch("https://google-play-store.onrender.com/api/games")
+        .then((response) => response.json())
+        .then((data) => setGames(data))
+        .catch((err) => console.log(err));
+    }, []);
+    console.log(games);
+  }
+
+  FetchApps();
+  FetchGames();
   return (
     <body>
       <header>
-        <nav className="navbar container">
-          <img className="logo" src={Logo} alt="play store logo" />
-
-          <div class="search-box">
-            <button class="btn-search">
-              <i class="fas fa-search"></i>
+        <nav className="navbar container" onClick={() => setShow(!show)}>
+          {show && <img className="logo" src={Logo} alt="play store logo" />}
+          <div className="search-box">
+            <button className="btn-search" onClick={() => setShow(!show)}>
+              <i className="fas fa-search"></i>
             </button>
             <input
               type="text"
-              class="input-search"
+              className="input-search"
               placeholder="Type to Search..."
             />
           </div>
@@ -64,231 +92,88 @@ const Maher = () => {
         </nav>
       </header>
 
-      <div className="grid">
+      <div>
         <div className="buttons">
-          <button class="button" role="button">
+          <button className="button" role="button">
             Top Free
           </button>
-          <button class="button" role="button">
+          <button className="button" role="button">
             Top Grossing
           </button>
-          <button class="button" role="button">
+          <button className="button" role="button">
             Top Paid
           </button>
         </div>
-        <div class="grid-container">
-          <a href="#app">
-            <div class="item">
-              <div className="left">
-                <img src={appLogo} alt="app logo" />
+        <div className="grid">
+          {apps.map((app) => {
+            return (
+              <div class="grid-container">
+                <a href="">
+                  <div class="item">
+                    <div className="left">
+                      <img src={app.logo} alt="app logo" />
+                    </div>
+                    <div className="right">
+                      <h4 className="appname">{app.app_name}</h4>
+                      <small className="appgenre">{app.category}</small>
+                      <p className="apprating">{app.rating} &#9733;</p>
+                    </div>
+                  </div>
+                </a>
               </div>
-              <div className="right">
-                <h4 className="appname">Name</h4>
-                <small className="appgenre">Genre</small>
-                <p className="apprating">3.3 &#9733;</p>
-              </div>
-            </div>
-          </a>
-          <a href="#app">
-            <div class="item">
-              <div className="left">
-                <img src={appLogo} alt="app logo" />
-              </div>
-              <div className="right">
-                <h4 className="appname">Name</h4>
-                <small className="appgenre">Genre</small>
-                <p className="apprating">3.3 &#9733;</p>
-              </div>
-            </div>
-          </a>
-          <a href="#app">
-            <div class="item">
-              <div className="left">
-                <img src={appLogo} alt="app logo" />
-              </div>
-              <div className="right">
-                <h4 className="appname">Name</h4>
-                <small className="appgenre">Genre</small>
-                <p className="apprating">3.3 &#9733;</p>
-              </div>
-            </div>
-          </a>
-          <a href="#app">
-            <div class="item">
-              <div className="left">
-                <img src={appLogo} alt="app logo" />
-              </div>
-              <div className="right">
-                <h4 className="appname">Name</h4>
-                <small className="appgenre">Genre</small>
-                <p className="apprating">3.3 &#9733;</p>
-              </div>
-            </div>
-          </a>
-          <a href="#app">
-            <div class="item">
-              <div className="left">
-                <img src={appLogo} alt="app logo" />
-              </div>
-              <div className="right">
-                <h4 className="appname">Name</h4>
-                <small className="appgenre">Genre</small>
-                <p className="apprating">3.3 &#9733;</p>
-              </div>
-            </div>
-          </a>
-          <a href="#app">
-            <div class="item">
-              <div className="left">
-                <img src={appLogo} alt="app logo" />
-              </div>
-              <div className="right">
-                <h4 className="appname">Name</h4>
-                <small className="appgenre">Genre</small>
-                <p className="apprating">3.3 &#9733;</p>
-              </div>
-            </div>
-          </a>
+            );
+          })}
         </div>
       </div>
 
       <div className="swiper">
         <h1 className="genre">Genre</h1>
+
         <Swiper
           effect={"coverflow"}
+          slidesPerView={3}
           grabCursor={true}
           centeredSlides={true}
-          loop={true}
-          slidesPerView={3}
           coverflowEffect={{
-            rotate: 0,
+            rotate: 50,
             stretch: 0,
-            depth: 100,
-            modifier: 2.5,
+            depth: 20,
+            modifier: 1,
+            slideShadows: true,
           }}
-          pagination={{ el: ".swiper-pagination", clickable: true }}
-          navigation={{
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-            clickable: true,
-          }}
-          modules={[EffectCoverflow, Pagination, Navigation]}
-          className="swiper_container"
+          pagination={true}
+          className="mySwiper"
         >
-          <SwiperSlide>
-            <div className="card">
-              <div className="upper">
-                <a href="">
-                  <img src={appImage} alt="app image" />
+          {games.map((game) => {
+            return (
+              <SwiperSlide>
+                <a>
+                  <div class="card">
+                    <img
+                      className="card-img"
+                      src={game.media}
+                      alt="game media"
+                    />
+
+                    <div class="card-info">
+                      <p class="text-title">{game.game_name}</p>
+                    </div>
+                    <div class="card-footer">
+                      <img
+                        className="gameLogo"
+                        src={game.media}
+                        alt="game logo"
+                      />
+                      <div className="info">
+                        <span class="text-title">{game.category}</span>
+                        <span class="text-title">{game.rating} &#9733;</span>
+                      </div>
+                    </div>
+                  </div>
                 </a>
-              </div>
-
-              <div className="lower">
-                <div className="left">
-                  <img src={appLogo} alt="app logo" />
-                </div>
-                <div className="right">
-                  <h4 className="appname">Name</h4>
-                  <small className="appgenre">Genre</small>
-                  <p className="apprating">3.3 &#9733;</p>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <div className="card">
-              <div className="upper">
-                <a href="">
-                  <img src={appImage} alt="app image" />
-                </a>
-              </div>
-
-              <div className="lower">
-                <div className="left">
-                  <img src={appLogo} alt="app logo" />
-                </div>
-                <div className="right">
-                  <h4 className="appname">Name</h4>
-                  <small className="appgenre">Genre</small>
-                  <p className="apprating">3.3 &#9733;</p>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <div className="card">
-              <div className="upper">
-                <a href="">
-                  <img src={appImage} alt="app image" />
-                </a>
-              </div>
-
-              <div className="lower">
-                <div className="left">
-                  <img src={appLogo} alt="app logo" />
-                </div>
-                <div className="right">
-                  <h4 className="appname">Name</h4>
-                  <small className="appgenre">Genre</small>
-                  <p className="apprating">3.3 &#9733;</p>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <div className="card">
-              <div className="upper">
-                <a href="">
-                  <img src={appImage} alt="app image" />
-                </a>
-              </div>
-
-              <div className="lower">
-                <div className="left">
-                  <img src={appLogo} alt="app logo" />
-                </div>
-                <div className="right">
-                  <h4 className="appname">Name</h4>
-                  <small className="appgenre">Genre</small>
-                  <p className="apprating">3.3 &#9733;</p>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <div className="card">
-              <div className="upper">
-                <a href="">
-                  <img src={appImage} alt="app image" />
-                </a>
-              </div>
-
-              <div className="lower">
-                <div className="left">
-                  <img src={appLogo} alt="app logo" />
-                </div>
-                <div className="right">
-                  <h4 className="appname">Name</h4>
-                  <small className="appgenre">Genre</small>
-                  <p className="apprating">3.3 &#9733;</p>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-
-          <div className="slider-controler">
-            <div className="swiper-button-prev slider-arrow">
-              <ion-icon name="arrow-back-outline"></ion-icon>
-            </div>
-            <div className="swiper-button-next slider-arrow">
-              <ion-icon name="arrow-forward-outline"></ion-icon>
-            </div>
-            <div className="swiper-pagination"></div>
-          </div>
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
       </div>
     </body>
