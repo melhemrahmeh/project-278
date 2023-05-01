@@ -1,0 +1,12 @@
+.card {
+  width: 20vw;
+  height: 30vh;
+}
+
+.card .card-img {
+  width: 20vw;
+  height: 20vh;
+  border-radius: 5%;
+  display: block;
+  object-fit: fill;
+}

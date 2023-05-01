@@ -1,11 +1,10 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import SwiperComponent from "./components/SwiperComponent.jsx";
-import { BsSearch } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
-
 import "../assets/styles/header.css";
 import "../assets/styles/grid.css";
+import { useState, useEffect } from "react";
+import AppsSwiper from "./components/AppsSwiper.jsx";
+import { BsSearch } from "react-icons/bs";
+
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
@@ -15,45 +14,53 @@ import Logo2 from "../assets/images/logo2.png";
 import user from "../assets/images/user.png";
 
 const Maher = () => {
-  const [show, setShow] = useState(true);
-  const navigate = useNavigate();
+  const [show, setShow] = useState();
 
   //fetching the data from the API and inserting them to different arrays according to the genre
-  const categories = ["Arcade", "New", "Music", "Board", "Racing"];
-  const [games, setGames] = useState();
+  const categories = [
+    "Recommended",
+    "Premium",
+    "Messaging",
+    "Productivity",
+    "Travel",
+  ];
+  const [apps, setApps] = useState();
 
   useEffect(() => {
-    async function fetchGames() {
+    async function fetchApps() {
       try {
-        const url = `https://google-play-store.onrender.com/api/games`;
+        const url = `https://google-play-store.onrender.com/api/apps`;
         const response = await axios.get(url);
         var data = response.data;
-        var categorizedGames = {};
+        var categorizedApps = {};
         for (let i = 0; i < categories.length; i++) {
           const category = categories[i];
-          categorizedGames[category] = [];
+          categorizedApps[category] = [];
         }
 
         for (let i = 0; i < data.length; i++) {
-          const game = data[i];
-          if (categorizedGames.hasOwnProperty(game.category)) {
-            categorizedGames[game.category].push(game);
+          const app = data[i];
+          if (categorizedApps.hasOwnProperty(app.category)) {
+            categorizedApps[app.category].push(app);
           }
         }
-        setGames(categorizedGames);
+        setApps(categorizedApps);
       } catch (errorWhileFetchingNews) {
-        console.log("error while fetching games", errorWhileFetchingNews);
+        console.log(
+          "error while fetching applications",
+          errorWhileFetchingNews
+        );
       }
     }
 
-    fetchGames();
+    fetchApps();
   }, []);
 
-  console.log(games);
+  console.log(apps);
 
   return (
     <body>
-      {/* header of the main page */}
+      {/* header of the page */}
       <header>
         <nav className="navbar container" onClick={() => setShow(!show)}>
           {show && <img className="logo" src={Logo2} alt="play store logo" />}
@@ -70,19 +77,27 @@ const Maher = () => {
 
           <ul className="nav-list">
             <li className="nav-item">
-              <a className="nav-link">Games</a>
+              <a href="#" className="nav-link">
+                Games
+              </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link">Apps</a>
+              <a href="#" className="nav-link">
+                Apps
+              </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link">Movies & TV</a>
+              <a href="#" className="nav-link">
+                Movies & TV
+              </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link">Books</a>
+              <a href="#" className="nav-link">
+                Books
+              </a>
             </li>
             <li>
-              <a>
+              <a href="#account">
                 <img src={user} alt="user" className="user" />
               </a>
             </li>
@@ -91,7 +106,7 @@ const Maher = () => {
         </nav>
       </header>
 
-      {/* first part of the main page  */}
+      {/* first part of the apps page (grid)  */}
       <div>
         <div className="gridbuttons">
           <button className="gridbutton" role="button">
@@ -105,16 +120,16 @@ const Maher = () => {
           </button>
         </div>
         <div className="grid">
-          {games.New.slice(0, 10).map((app) => {
+          {apps.Recommended.slice(0, 10).map((app) => {
             return (
               <div class="grid-container">
                 <a href="">
                   <div class="item">
                     <div className="left">
-                      <img src={app.media} alt="app logo" />
+                      <img src={app.logo} alt="app logo" />
                     </div>
                     <div className="right">
-                      <h4 className="appname">{app.name}</h4>
+                      <h4 className="appname">{app.app_name}</h4>
                       <small className="appgenre">{app.category}</small>
                       <p className="apprating">{app.rating} &#9733;</p>
                     </div>
@@ -126,11 +141,11 @@ const Maher = () => {
         </div>
       </div>
 
-      {/* swiper for each category of applications  */}
-      <SwiperComponent genre="Recommended for you" elements={games.New} />
-      <SwiperComponent genre="Offline Games" elements={games.New} />
-      <SwiperComponent genre="Top-rated games" elements={games.New} />
-      <SwiperComponent genre="Strategy games" elements={games.New} />
+      {/* Some apps Swipers */}
+      <AppsSwiper genre="Premium" elements={apps.Recommended} />
+      <AppsSwiper genre="Productivity" elements={apps.Recommended} />
+      <AppsSwiper genre="Travel" elements={apps.Recommended} />
+      <AppsSwiper genre="Messaging" elements={apps.Recommended} />
     </body>
   );
 };
