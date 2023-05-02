@@ -18,7 +18,7 @@ export default function App() {
       <Route path="/apps" element={<Apps />} />
       <Route path="/movies" element={<Movies />} />
       <Route path="/books" element={<Books />} />
-      <Route path="/detail" element={<AppDetail />} />
+      <Route path="/details" element={<AppDetail />} />
     </Routes>
   );
 }

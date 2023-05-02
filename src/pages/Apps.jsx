@@ -1,20 +1,24 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
+import AppsSwiper from "./components/AppsSwiper.jsx";
+import NavbarComponent from "./components/NavbarComponent";
+import axios from "axios";
+
 import "../assets/styles/header.css";
 import "../assets/styles/grid.css";
-import { useState, useEffect } from "react";
-import AppsSwiper from "./components/AppsSwiper.jsx";
-import { BsSearch } from "react-icons/bs";
-
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import Logo2 from "../assets/images/logo2.png";
-import user from "../assets/images/user.png";
 
 const Maher = () => {
-  const [show, setShow] = useState();
+  const navigate = useNavigate();
+
+  function handleSubPage(event) {
+    navigate('/details');
+  }
 
   //fetching the data from the API and inserting them to different arrays according to the genre
   const categories = [
@@ -62,48 +66,7 @@ const Maher = () => {
     <body>
       {/* header of the page */}
       <header>
-        <nav className="navbar container" onClick={() => setShow(!show)}>
-          {show && <img className="logo" src={Logo2} alt="play store logo" />}
-          <div className="search-box">
-            <button className="btn-search" onClick={() => setShow(!show)}>
-              <BsSearch />
-            </button>
-            <input
-              type="text"
-              className="input-search"
-              placeholder="Type to Search..."
-            />
-          </div>
-
-          <ul className="nav-list">
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                Games
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                Apps
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                Movies & TV
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                Books
-              </a>
-            </li>
-            <li>
-              <a href="#account">
-                <img src={user} alt="user" className="user" />
-              </a>
-            </li>
-            <div className="active"></div>
-          </ul>
-        </nav>
+        <NavbarComponent/>
       </header>
 
       {/* first part of the apps page (grid)  */}
@@ -123,7 +86,7 @@ const Maher = () => {
           {apps.Recommended.slice(0, 10).map((app) => {
             return (
               <div class="grid-container">
-                <a href="">
+                <a href={handleSubPage}>
                   <div class="item">
                     <div className="left">
                       <img src={app.logo} alt="app logo" />

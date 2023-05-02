@@ -1,8 +1,15 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useNavigate } from "react-router";
 import "../../assets/styles/swiper.css";
 
 const SwiperComponent = ({ genre, elements }) => {
+  const navigate = useNavigate();
+
+  function handleSubPage(event) {
+    navigate('/details');
+  }
+
   return (
     <div className="swiper">
       <h1 className="genre">{genre}</h1>
@@ -25,7 +32,7 @@ const SwiperComponent = ({ genre, elements }) => {
         {elements.map((element) => {
           return (
             <SwiperSlide>
-              <a>
+              <a href={handleSubPage}>
                 <div class="card">
                   <img
                     className="card-img"
