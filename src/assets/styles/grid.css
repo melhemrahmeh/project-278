@@ -1,9 +1,9 @@
-.buttons {
+.gridbuttons {
   margin-left: 100px;
   margin-top: 50px;
 }
 
-.button {
+.gridbuttons .gridbutton {
   background-color: #0000ae;
   border: 0;
   border-radius: 56px;
@@ -23,10 +23,10 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  margin-right: 30px;
+  margin-right: 20px;
 }
 
-.button:before {
+.gridbuttons .gridbutton:before {
   background-color: initial;
   background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
   border-radius: 125px;
@@ -40,14 +40,14 @@
   width: 92%;
 }
 
-.button:hover {
+.gridbuttons .gridbutton:hover {
   box-shadow: rgba(255, 255, 255, 0.2) 0 3px 15px inset,
     rgba(0, 0, 0, 0.1) 0 3px 5px, rgba(0, 0, 0, 0.1) 0 10px 13px;
   transform: scale(1.05);
 }
 
 @media (min-width: 768px) {
-  .button {
+  .gridbuttons .gridButton {
     padding: 16px 48px;
   }
 }

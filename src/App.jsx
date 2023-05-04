@@ -4,15 +4,21 @@ import Maher from "./pages/Maher";
 import Login from "./pages/login";
 import Register from "./pages/Register";
 import AppDetail from "./pages/AppDetail";
+import Apps from "./pages/Apps";
+import Books from "./pages/Books";
+import Movies from "./pages/Movies";
 
 export default function App() {
   return (
     <Routes>
       <Route index path="/" element={<Home />} />
-      <Route path="/maher" element={<Maher />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/detail" element={<AppDetail/>}/>
+      <Route path="/maher" element={<Maher />} />
+      <Route path="/apps" element={<Apps />} />
+      <Route path="/movies" element={<Movies />} />
+      <Route path="/books" element={<Books />} />
+      <Route path="/details" element={<AppDetail />} />
     </Routes>
   );
 }

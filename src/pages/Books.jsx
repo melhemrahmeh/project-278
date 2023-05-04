@@ -1,8 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import SwiperComponent from "./components/SwiperComponent.jsx";
-import NavbarComponent from "./components/NavbarComponent.jsx";
+import MoviesSwiper from "./components/MoviesSwiper.jsx";
+import NavbarComponent from "./components/NavbarComponent";
 import axios from "axios";
 
 import "../assets/styles/header.css";
@@ -20,46 +20,54 @@ const Maher = () => {
   }
 
   //fetching the data from the API and inserting them to different arrays according to the genre
-  const categories = ["Arcade", "New", "Music", "Board", "Racing"];
-  const [games, setGames] = useState();
+  const categories = ["Romance", "Cooking", "Science", "History", "Religion"];
+  const [books, setBooks] = useState();
 
   useEffect(() => {
-    async function fetchGames() {
+    async function fetchBooks() {
       try {
-        const url = `https://google-play-store.onrender.com/api/games`;
+        const url = `https://google-play-store.onrender.com/api/books`;
         const response = await axios.get(url);
         var data = response.data;
-        var categorizedGames = {};
+        var categorizedBooks = {};
         for (let i = 0; i < categories.length; i++) {
           const category = categories[i];
-          categorizedGames[category] = [];
+          categorizedBooks[category] = [];
         }
 
         for (let i = 0; i < data.length; i++) {
-          const game = data[i];
-          if (categorizedGames.hasOwnProperty(game.category)) {
-            categorizedGames[game.category].push(game);
+          const book = data[i];
+          if (categorizedBooks.hasOwnProperty(book.category)) {
+            categorizedBooks[book.category].push(book);
           }
         }
-        setGames(categorizedGames);
+        setBooks(categorizedBooks);
       } catch (errorWhileFetchingNews) {
-        console.log("error while fetching games", errorWhileFetchingNews);
+        console.log("error while fetching books", errorWhileFetchingNews);
       }
     }
 
-    fetchGames();
+    fetchBooks();
   }, []);
 
-  console.log(games);
+  console.log(books);
 
   return (
     <body>
-      {/* header of the main page */}
+      {/* header of the page */}
       <header>
         <NavbarComponent/>
       </header>
 
-      {/* first part of the main page  */}
+      {/* three swipers before the grid  */}
+      <MoviesSwiper genre="Top-selling comics" elements={books.History} />
+      <MoviesSwiper
+        genre="More like Naked Economics: Undressing the Dismal Science"
+        elements={books.History}
+      />
+      <MoviesSwiper genre="Mystery & Thrillers" elements={books.History} />
+
+      {/* grid part of the page  */}
       <div>
         <div className="gridbuttons">
           <button className="gridbutton" role="button">
@@ -73,18 +81,18 @@ const Maher = () => {
           </button>
         </div>
         <div className="grid">
-          {games.New.slice(0, 10).map((app) => {
+          {books.History.slice(0, 10).map((book) => {
             return (
               <div class="grid-container">
                 <a href={handleSubPage}>
                   <div class="item">
                     <div className="left">
-                      <img src={app.media} alt="app logo" />
+                      <img src={book.media} alt="app logo" />
                     </div>
                     <div className="right">
-                      <h4 className="appname">{app.name}</h4>
-                      <small className="appgenre">{app.category}</small>
-                      <p className="apprating">{app.rating} &#9733;</p>
+                      <h4 className="appname">{book.name}</h4>
+                      <small className="appgenre">{book.category}</small>
+                      <p className="apprating">{book.rating} &#9733;</p>
                     </div>
                   </div>
                 </a>
@@ -94,11 +102,9 @@ const Maher = () => {
         </div>
       </div>
 
-      {/* swiper for each category of applications  */}
-      <SwiperComponent genre="Recommended for you" elements={games.New} />
-      <SwiperComponent genre="Offline Games" elements={games.New} />
-      <SwiperComponent genre="Top-rated games" elements={games.New} />
-      <SwiperComponent genre="Strategy games" elements={games.New} />
+      {/* More Books Swipers */}
+      <MoviesSwiper genre="Self-Help eBooks" elements={books.History} />
+      <MoviesSwiper genre="Biographies & Memoirs" elements={books.History} />
     </body>
   );
 };

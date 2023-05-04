@@ -1,8 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import SwiperComponent from "./components/SwiperComponent.jsx";
-import NavbarComponent from "./components/NavbarComponent.jsx";
+import MoviesSwiper from "./components/MoviesSwiper";
+import NavbarComponent from "./components/NavbarComponent";
 import axios from "axios";
 
 import "../assets/styles/header.css";
@@ -20,46 +20,55 @@ const Maher = () => {
   }
 
   //fetching the data from the API and inserting them to different arrays according to the genre
-  const categories = ["Arcade", "New", "Music", "Board", "Racing"];
-  const [games, setGames] = useState();
+  const categories = [
+    "Action & Adventure",
+    "Animation",
+    "Comedy",
+    "Documentary",
+    "History",
+  ];
+  const [movies, setMovies] = useState();
 
   useEffect(() => {
-    async function fetchGames() {
+    async function fetchMovies() {
       try {
-        const url = `https://google-play-store.onrender.com/api/games`;
+        const url = `https://google-play-store.onrender.com/api/movies`;
         const response = await axios.get(url);
         var data = response.data;
-        var categorizedGames = {};
+        var categorizedMovies = {};
         for (let i = 0; i < categories.length; i++) {
           const category = categories[i];
-          categorizedGames[category] = [];
+          categorizedMovies[category] = [];
         }
 
         for (let i = 0; i < data.length; i++) {
-          const game = data[i];
-          if (categorizedGames.hasOwnProperty(game.category)) {
-            categorizedGames[game.category].push(game);
+          const movie = data[i];
+          if (categorizedMovies.hasOwnProperty(movie.category)) {
+            categorizedMovies[movie.category].push(movie);
           }
         }
-        setGames(categorizedGames);
+        setMovies(categorizedMovies);
       } catch (errorWhileFetchingNews) {
-        console.log("error while fetching games", errorWhileFetchingNews);
+        console.log("error while fetching movies", errorWhileFetchingNews);
       }
     }
 
-    fetchGames();
+    fetchMovies();
   }, []);
 
-  console.log(games);
+  console.log(movies);
 
   return (
+    // <h1></h1>
     <body>
-      {/* header of the main page */}
       <header>
         <NavbarComponent/>
       </header>
 
-      {/* first part of the main page  */}
+      {/* New Movies Swiper  */}
+      <MoviesSwiper genre="New Movies" elements={movies.Animation} />
+
+      {/* grid of 10 movies  */}
       <div>
         <div className="gridbuttons">
           <button className="gridbutton" role="button">
@@ -73,18 +82,18 @@ const Maher = () => {
           </button>
         </div>
         <div className="grid">
-          {games.New.slice(0, 10).map((app) => {
+          {movies.Animation.slice(0, 10).map((movie) => {
             return (
               <div class="grid-container">
                 <a href={handleSubPage}>
                   <div class="item">
                     <div className="left">
-                      <img src={app.media} alt="app logo" />
+                      <img src={movie.media} alt="movie logo" />
                     </div>
                     <div className="right">
-                      <h4 className="appname">{app.name}</h4>
-                      <small className="appgenre">{app.category}</small>
-                      <p className="apprating">{app.rating} &#9733;</p>
+                      <h4 className="appname">{movie.movie_name}</h4>
+                      <small className="appgenre">{movie.category}</small>
+                      <p className="apprating">{movie.rating} &#9733;</p>
                     </div>
                   </div>
                 </a>
@@ -94,11 +103,12 @@ const Maher = () => {
         </div>
       </div>
 
-      {/* swiper for each category of applications  */}
-      <SwiperComponent genre="Recommended for you" elements={games.New} />
-      <SwiperComponent genre="Offline Games" elements={games.New} />
-      <SwiperComponent genre="Top-rated games" elements={games.New} />
-      <SwiperComponent genre="Strategy games" elements={games.New} />
+      {/* Another couple swipers for different movies genres*/}
+      <MoviesSwiper genre="Top-selling movies" elements={movies.Animation} />
+      <MoviesSwiper genre="animation" elements={movies.Animation} />
+      <MoviesSwiper genre="Comedy" elements={movies.Animation} />
+      <MoviesSwiper genre="Documentary" elements={movies.Animation} />
+      <MoviesSwiper genre="History" elements={movies.Animation} />
     </body>
   );
 };

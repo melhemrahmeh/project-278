@@ -6,7 +6,9 @@ header {
 
 header img {
   width: 200px;
-  margin-right: -500px;
+  height: 50px;
+  border-radius: 10%;
+  margin-right: -450px;
 }
 
 .search-box {
@@ -48,7 +50,8 @@ header img {
   color: #fff;
   background-color: transparent;
   pointer-events: painted;
-  padding-left: 50vw;
+  padding-left: 1vw;
+  margin-left: 10vw;
 }
 
 .btn-search:focus ~ .input-search {
