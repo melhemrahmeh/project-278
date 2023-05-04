@@ -1,9 +1,7 @@
 body {
     background-color: #fff;
-}
-
-button {
-    background-color: #0000ae;
+    padding-left: 100px;
+    padding-top: 15px;
 }
 
 .App-main {
@@ -21,39 +19,65 @@ button {
 }
 
 .button {
-    width: fit-content;
-    margin: 6px 0;
-    padding: 8px 16px;
-}
-
-.free {
-    color: white;
-    border-radius: 8px;
-    border: none;
-    padding: 8px 16px;
-}
-
-.free:hover {
-    background-color: #47b5ff;
-    cursor: pointer;
-}
-
-.add {
-    color: white;
-    border-radius: 8px;
-    border: none;
-    padding: 8px 16px;
-}
-
-.add:hover {
-    background-color: #47b5ff;
-    cursor: pointer;
-}
-
-.bookmark {
     background-color: #0000ae;
+    border: 0;
+    border-radius: 56px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: system-ui, -apple-system, system-ui, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    outline: 0;
+    padding: 16px 21px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    margin-right: 3px;
 }
 
-.wish {
-    font-size: 10px;
+.button:hover {
+    background-color: #6363ff;
+}
+
+.icon-row {
+    display: flex;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 3px;
+}
+
+.icon-line {
+    width: 1px;
+    height: 20px;
+    background-color: rgb(191, 190, 190);
+    margin: 0 15px;
+}
+
+.icon-text {
+    margin-top: 5px;
+    text-align: center;
+    font-size: 12px;
+}
+
+.rev {
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    padding-right: 10px;
+}
+
+.rat {
+    display: flex;
+    flex-direction: row;
 }

@@ -1,23 +1,24 @@
 import React from "react";
+import "../assets/styles/AppDetail.css";
 import AppTitle from "../components/app title/apptitle";
 import AppIcon from "../components/app icon/appicon";
 import AppDescription from "../components/app description/appdescription";
-import AppRating from "../components/app rating/apprating";
 // import Header from './components/header/header';
 // import Footer from './components/footer/footer';
 import AppScreenshot from "../components/app screenshot/appscreenshot";
 import AppReview from "../components/app review/appreview";
 import IconRow from "../components/icon/icons";
 import BookmarkButton from "../components/bookmark/bookmark.jsx";
+import RatingsAndReviews from '../components/ratingsrevs/ratingsrevs';
+import InfoAndReviews from "../components/ratingsrevs/inforevs";
+import Rat from "../components/ratingsrevs/rat"
 
 
 function AppDetail() {
     const title = "bla bla";
     const iconUrl = "https://picsum.photos/200/300";
-    const description =
-        "This is the best app ever! Download it now and see for yourself!";
-    const rating = 4.5;
-    const screenshotUrls = ["https://picsum.photos/160/300"];
+    const description ="An interesting comic that tells a unique story about the characters background";
+    const screenshotUrls = ["https://picsum.photos/160/250"];
     const reviews = [{
             author: "John Smith",
             body: "This app is amazing! I can't believe how easy it is to use.",
@@ -38,17 +39,27 @@ function AppDetail() {
             <div className="icons">
               <IconRow />
             </div>{" "}
-            <div className="button">
-              <button className="free"> Get for free </button>{" "}
-              <BookmarkButton className="bookmark" />
+            <div>
+                <button className="button">Get for free</button>{" "}
+                <BookmarkButton/>
             </div>{" "}
             <div className="AppIcon right">
               <AppIcon src={iconUrl} title={title} />{" "}
             </div>{" "}
           </div>{" "}
+          <div className="info">
           <AppDescription description={description} />{" "}
-          <AppRating rating={rating} /> <AppScreenshot src={screenshotUrls} />{" "}
-          <AppReview reviews={reviews} />{" "}
+          <InfoAndReviews/>
+          </div>
+          <p>Screenshots:</p>
+          <AppScreenshot src={screenshotUrls} />{" "}
+          <div className="rev">
+          <RatingsAndReviews />
+            <div className="rat">
+            <Rat/>
+            <AppReview reviews={reviews} />{" "}
+            </div>
+          </div>
         </main>{" "}
       </div>
     );

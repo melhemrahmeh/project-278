@@ -5,7 +5,6 @@ import "../assets/styles/grid.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwipeCore, { EffectCoverflow, Pagination, Navigation } from "swiper";
 import { useState, useEffect } from "react";
-import { Responsive as ResponsiveGridLayout } from "react-grid-layout";
 
 import "swiper/css";
 import "swiper/css/effect-coverflow";

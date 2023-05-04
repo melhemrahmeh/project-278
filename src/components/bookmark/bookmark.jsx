@@ -1,5 +1,5 @@
 import React from 'react';
-import "../../assets/styles/AppDetail.css";
+import "../../assets/styles/AppDetail.css"
 import IconButton from '@mui/material/IconButton';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 
@@ -14,12 +14,15 @@ const BookmarkButton = () => {
     <IconButton
       aria-label="Bookmark"
       color="inherit"
+      disableRipple
+      disableTouchRipple
       onClick={handleBookmarkClick}
     >
-      <BookmarkBorderIcon />
-      <p className='wish'>Add to Wishlist</p>
+      <button className='button'>
+      <BookmarkBorderIcon/>
+        Add to wishlist
+      </button>
     </IconButton>
-  );
-};
+  )};
 
 export default BookmarkButton;
