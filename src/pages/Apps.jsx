@@ -1,153 +1,118 @@
 import React from "react";
-import "../assets/styles/header.css";
 import "../assets/styles/grid.css";
-import { useState, useEffect } from "react";
-import AppsSwiper from "./components/AppsSwiper.jsx";
-import { BsSearch } from "react-icons/bs";
+import { useState } from "react";
+import { getApps } from "../services/appsServices";
+import { Oval } from "react-loader-spinner";
+import { Link } from "react-router-dom";
+import SwiperComponent from "./components/SwiperComponent";
+import Footer from "./components/Footer";
 
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
+const Apps = () => {
+  const { isLoading, data, isFetching } = getApps();
 
-import Logo2 from "../assets/images/logo2.png";
-import user from "../assets/images/user.png";
+  if (isLoading) {
+    return (
+      <div className="flex flex-row justify-center items-center h-80">
+        <Oval height={80} width={80} color="#111111" />
+      </div>
+    );
+  } else {
+    const categories = [
+      "Recommended",
+      "Premium",
+      "Messaging",
+      "Productivity",
+      "Travel",
+    ];
+    var categorizedApps = {};
 
-const Maher = () => {
-  const [show, setShow] = useState();
+    if (!isLoading) {
+      for (let i = 0; i < categories.length; i++) {
+        const category = categories[i];
+        categorizedApps[category] = [];
+      }
 
-  //fetching the data from the API and inserting them to different arrays according to the genre
-  const categories = [
-    "Recommended",
-    "Premium",
-    "Messaging",
-    "Productivity",
-    "Travel",
-  ];
-  const [apps, setApps] = useState();
-
-  useEffect(() => {
-    async function fetchApps() {
-      try {
-        const url = `https://google-play-store.onrender.com/api/apps`;
-        const response = await axios.get(url);
-        var data = response.data;
-        var categorizedApps = {};
-        for (let i = 0; i < categories.length; i++) {
-          const category = categories[i];
-          categorizedApps[category] = [];
-        }
-
-        for (let i = 0; i < data.length; i++) {
-          const app = data[i];
-          if (categorizedApps.hasOwnProperty(app.category)) {
-            categorizedApps[app.category].push(app);
-          }
-        }
-        setApps(categorizedApps);
-      } catch (errorWhileFetchingNews) {
-        console.log(
-          "error while fetching applications",
-          errorWhileFetchingNews
-        );
+      for (let i = 0; i < data.length; i++) {
+        const game = data[i];
+        categorizedApps[game.category].push(game);
       }
     }
-
-    fetchApps();
-  }, []);
-
-  console.log(apps);
-
-  return (
-    <body>
-      {/* header of the page */}
-      <header>
-        <nav className="navbar container" onClick={() => setShow(!show)}>
-          {show && <img className="logo" src={Logo2} alt="play store logo" />}
-          <div className="search-box">
-            <button className="btn-search" onClick={() => setShow(!show)}>
-              <BsSearch />
+    return (
+      <body>
+        <div>
+          <div className="gridbuttons">
+            <button
+              type="submit"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-3xl text-lg px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            >
+              Top Free
             </button>
-            <input
-              type="text"
-              className="input-search"
-              placeholder="Type to Search..."
-            />
+            <button
+              type="submit"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-3xl text-lg px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            >
+              Top Grossing
+            </button>
+            <button
+              type="submit"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-3xl text-lg px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            >
+              Top Paid
+            </button>
           </div>
-
-          <ul className="nav-list">
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                Games
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                Apps
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                Movies & TV
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                Books
-              </a>
-            </li>
-            <li>
-              <a href="#account">
-                <img src={user} alt="user" className="user" />
-              </a>
-            </li>
-            <div className="active"></div>
-          </ul>
-        </nav>
-      </header>
-
-      {/* first part of the apps page (grid)  */}
-      <div>
-        <div className="gridbuttons">
-          <button className="gridbutton" role="button">
-            Top Free
-          </button>
-          <button className="gridbutton" role="button">
-            Top Grossing
-          </button>
-          <button className="gridbutton" role="button">
-            Top Paid
-          </button>
-        </div>
-        <div className="grid">
-          {apps.Recommended.slice(0, 10).map((app) => {
-            return (
-              <div class="grid-container">
-                <a href="">
-                  <div class="item">
-                    <div className="left">
-                      <img src={app.logo} alt="app logo" />
-                    </div>
-                    <div className="right">
-                      <h4 className="appname">{app.app_name}</h4>
-                      <small className="appgenre">{app.category}</small>
-                      <p className="apprating">{app.rating} &#9733;</p>
-                    </div>
+          <div className="grid">
+            {data.slice(0, 12).map((app) => {
+              return (
+                <Link to={`/detail/${app.app_id}`}>
+                  <div class="grid-container">
+                    <a href="">
+                      <div class="item">
+                        <div className="left">
+                          <img src={app.media} alt="app logo" />
+                        </div>
+                        <div className="right">
+                          <h4 className="appname">{app.app_name}</h4>
+                          <small className="appgenre">{app.category}</small>
+                          <p className="apprating">{app.rating} &#9733;</p>
+                        </div>
+                      </div>
+                    </a>
                   </div>
-                </a>
-              </div>
-            );
-          })}
+                </Link>
+              );
+            })}
+          </div>
         </div>
-      </div>
 
-      {/* Some apps Swipers */}
-      <AppsSwiper genre="Premium" elements={apps.Recommended} />
-      <AppsSwiper genre="Productivity" elements={apps.Recommended} />
-      <AppsSwiper genre="Travel" elements={apps.Recommended} />
-      <AppsSwiper genre="Messaging" elements={apps.Recommended} />
-    </body>
-  );
+        {/* Some apps Swipers */}
+        <SwiperComponent
+          genre="Premium"
+          elements={categorizedApps.Premium}
+          type="app"
+        />
+        <SwiperComponent
+          genre="Recommended"
+          elements={categorizedApps.Recommended}
+          type="app"
+        />
+        <SwiperComponent
+          genre="Travel"
+          elements={categorizedApps.Travel}
+          type="app"
+        />
+        <SwiperComponent
+          genre="Messaging"
+          elements={categorizedApps.Messaging}
+          type="app"
+        />
+        <SwiperComponent
+          genre="Productivity"
+          elements={categorizedApps.Productivity}
+          type="app"
+        />
+      </body>
+    );
+  }
 };
 
-export default Maher;
+export default Apps;

@@ -1,155 +1,116 @@
 import React from "react";
-import "../assets/styles/header.css";
-import "../assets/styles/grid.css";
-import { useState, useEffect } from "react";
-import { BsSearch } from "react-icons/bs";
-import MoviesSwiper from "./components/MoviesSwiper";
-import axios from "axios";
+import { Oval } from "react-loader-spinner";
+import { getMovies } from "../services/moviesServices";
+import SwiperComponent from "./components/SwiperComponent";
 
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
+const Movies = () => {
+  const { isLoading, data, isFetching } = getMovies();
 
-import Logo2 from "../assets/images/logo2.png";
-import user from "../assets/images/user.png";
+  if (isLoading) {
+    return (
+      <div className="flex flex-row justify-center items-center h-80">
+        <Oval height={80} width={80} color="#111111" />
+      </div>
+    );
+  } else {
+    const categories = [
+      "Action",
+      "Animation",
+      "Comedy",
+      "Documentary",
+      "History",
+    ];
+    var categorizedMovies = {};
 
-const Maher = () => {
-  const [show, setShow] = useState();
+    if (!isLoading) {
+      for (let i = 0; i < categories.length; i++) {
+        const category = categories[i];
+        categorizedMovies[category] = [];
+      }
 
-  //fetching the data from the API and inserting them to different arrays according to the genre
-  const categories = [
-    "Action & Adventure",
-    "Animation",
-    "Comedy",
-    "Documentary",
-    "History",
-  ];
-  const [movies, setMovies] = useState();
-
-  useEffect(() => {
-    async function fetchMovies() {
-      try {
-        const url = `https://google-play-store.onrender.com/api/movies`;
-        const response = await axios.get(url);
-        var data = response.data;
-        var categorizedMovies = {};
-        for (let i = 0; i < categories.length; i++) {
-          const category = categories[i];
-          categorizedMovies[category] = [];
-        }
-
-        for (let i = 0; i < data.length; i++) {
-          const movie = data[i];
-          if (categorizedMovies.hasOwnProperty(movie.category)) {
-            categorizedMovies[movie.category].push(movie);
-          }
-        }
-        setMovies(categorizedMovies);
-      } catch (errorWhileFetchingNews) {
-        console.log("error while fetching movies", errorWhileFetchingNews);
+      for (let i = 0; i < data.length; i++) {
+        const game = data[i];
+        categorizedMovies[game.category].push(game);
       }
     }
 
-    fetchMovies();
-  }, []);
-
-  console.log(movies);
-
-  return (
-    // <h1></h1>
-    <body>
-      <header>
-        <nav className="navbar container" onClick={() => setShow(!show)}>
-          {show && <img className="logo" src={Logo2} alt="play store logo" />}
-          <div className="search-box">
-            <button className="btn-search" onClick={() => setShow(!show)}>
-              <BsSearch />
+    return (
+      <body>
+        <SwiperComponent
+          genre="New Movies"
+          elements={categorizedMovies.Animation}
+          type="movie"
+        />
+        <div>
+          <div className="gridbuttons">
+            <button
+              type="submit"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-3xl text-lg px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            >
+              Top Free
             </button>
-            <input
-              type="text"
-              className="input-search"
-              placeholder="Type to Search..."
-            />
+            <button
+              type="submit"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-3xl text-lg px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            >
+              Top Grossing
+            </button>
+            <button
+              type="submit"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-3xl text-lg px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            >
+              Top Paid
+            </button>
           </div>
-
-          <ul className="nav-list">
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                Games
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                Apps
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                Movies & TV
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                movies
-              </a>
-            </li>
-            <li>
-              <a href="#account">
-                <img src={user} alt="user" className="user" />
-              </a>
-            </li>
-            <div className="active"></div>
-          </ul>
-        </nav>
-      </header>
-
-      {/* New Movies Swiper  */}
-      <MoviesSwiper genre="New Movies" elements={movies.Animation} />
-
-      {/* grid of 10 movies  */}
-      <div>
-        <div className="gridbuttons">
-          <button className="gridbutton" role="button">
-            Top Free
-          </button>
-          <button className="gridbutton" role="button">
-            Top Grossing
-          </button>
-          <button className="gridbutton" role="button">
-            Top Paid
-          </button>
-        </div>
-        <div className="grid">
-          {movies.Animation.slice(0, 10).map((movie) => {
-            return (
-              <div class="grid-container">
-                <a href="">
-                  <div class="item">
-                    <div className="left">
-                      <img src={movie.media} alt="movie logo" />
+          <div className="grid">
+            {data.slice(0, 12).map((movie) => {
+              return (
+                <div class="grid-container">
+                  <a href="">
+                    <div class="item">
+                      <div className="left">
+                        <img src={movie.media} alt="movie logo" />
+                      </div>
+                      <div className="right">
+                        <h4 className="appname">{movie.movie_name}</h4>
+                        <small className="appgenre">{movie.category}</small>
+                        <p className="apprating">{movie.rating} &#9733;</p>
+                      </div>
                     </div>
-                    <div className="right">
-                      <h4 className="appname">{movie.movie_name}</h4>
-                      <small className="appgenre">{movie.category}</small>
-                      <p className="apprating">{movie.rating} &#9733;</p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            );
-          })}
+                  </a>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-
-      {/* Another couple swipers for different movies genres*/}
-      <MoviesSwiper genre="Top-selling movies" elements={movies.Animation} />
-      <MoviesSwiper genre="animation" elements={movies.Animation} />
-      <MoviesSwiper genre="Comedy" elements={movies.Animation} />
-      <MoviesSwiper genre="Documentary" elements={movies.Animation} />
-      <MoviesSwiper genre="History" elements={movies.Animation} />
-    </body>
-  );
+        <SwiperComponent
+          genre="Action"
+          elements={categorizedMovies.Action}
+          type="movie"
+        />
+        <SwiperComponent
+          genre="Animation"
+          elements={categorizedMovies.Animation}
+          type="movie"
+        />
+        <SwiperComponent
+          genre="Comedy"
+          elements={categorizedMovies.Comedy}
+          type="movie"
+        />
+        <SwiperComponent
+          genre="Documentary"
+          elements={categorizedMovies.Documentary}
+          type="movie"
+        />
+        <SwiperComponent
+          genre="History"
+          elements={categorizedMovies.History}
+          type="movie"
+        />
+      </body>
+    );
+  }
 };
 
-export default Maher;
+export default Movies;
